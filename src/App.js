@@ -7,11 +7,18 @@ class Counter extends React.Component {
   constructor(props) {
     super(props);
     this.handleReset = this.handleReset.bind(this);
-    this.handleAddChar = this.handleAddChar.bind(this);
+    this.handleAddOne = this.handleAddOne.bind(this);
+    this.handleSubtractOne = this.handleSubtractOne.bind(this);
     this.state = {
-      count: 0,
-      userText: 'user124'
+      count: 0
     };
+  }
+  handleAddOne() {
+    this.setState((prevState) => {
+      return {
+        count: prevState.count + 1
+      };
+    });
   }
   handleReset() {
     this.setState(() => {
@@ -20,31 +27,20 @@ class Counter extends React.Component {
       };
     });
   }
-  handleAddChar(userOption) {
-    userOption.preventDefault();
-    const option = userOption.target.elements.option.value;
+  handleSubtractOne() {
     this.setState((prevState) => {
       return {
-        count: prevState.count + 1,
-        userText: option
+        count: prevState.count - 1
       };
-    })
-    console.log(this.state.userText);
-    this.render();
+    });
   }
-  //function that updates a canvas with the svg?
   render(){
     return (
       <div>
-        <h3>Identicons Rendered (React State Management): {this.state.count}</h3>
+        <h3>Count (React State Management): {this.state.count}</h3>
+        <button onClick={this.handleAddOne}>Add One</button>
+        <button onClick={this.handleSubtractOne}>Subtract One</button>
         <button onClick={this.handleReset}>Reset Counter</button>
-          <form onSubmit={this.handleAddChar}>
-            Enter Your Text Here: 
-            <input type="text" name="option" />
-            <button>Add Option</button>
-          </form>
-        <p>{this.state.userText}</p>
-        <canvas width="80" height="80" data-jdenticon-value='user123'></canvas>
       </div>
     );
   }
@@ -58,14 +54,14 @@ const RouterStart = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/identiconGen">Identicon Generator</Link>
+          <Link to="/stateCount">State Count</Link>
         </li>
       </ul>
 
       <hr />
 
       <Route exact path="/" component={Home} />
-      <Route path="/identiconGen" component={IdenticonGen} />
+      <Route path="/stateCount" component={StateCount} />
     </div>
   </Router>
 );
@@ -77,16 +73,11 @@ const Home = () => (
   </div>
 );
 
-const IdenticonGen = () => (
+const StateCount = () => (
   <div>
     <Counter />
   </div>
 );
 
-// const Topic = ({ match }) => (
-//   <div>
-//     <h3>{match.params.topicId}</h3>
-//   </div>
-// );
 
 export default RouterStart;
